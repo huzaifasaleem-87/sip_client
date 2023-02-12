@@ -741,7 +741,7 @@ private:
 
     SipClientT& m_sip_client;
 
-    static constexpr const uint16_t LOCAL_PORT = 5060;
+    static constexpr const uint16_t LOCAL_PORT = 5064;
     static constexpr const char* TRANSPORT_LOWER = "udp";
     static constexpr const char* TRANSPORT_UPPER = "UDP";
 

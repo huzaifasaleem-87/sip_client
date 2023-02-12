@@ -11,10 +11,9 @@ find_package( Threads REQUIRED )
 list(APPEND CMAKE_MODULE_PATH /usr/share/SFML/cmake/Modules/)
 find_package(SFML COMPONENTS audio system REQUIRED)
 
-set (PROJECT_COMPONENTS_DIR lib)
 
 # I../includes
-include_directories(${PROJECT_COMPONENTS_DIR}/sip_client/include src)
+include_directories(lib/sip_client/include lib/argparse src)
 
 # puts all .cpp files inside src to the SOURCES variable
 set(SOURCES src/main.cpp)

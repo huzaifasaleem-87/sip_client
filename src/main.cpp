@@ -15,6 +15,7 @@
  */
 
 #include "asio.hpp"
+#include "argparse.hpp"
 
 #include "sip_client/asio_udp_client.h"
 #include "sip_client/mbedtls_md5.h"
@@ -24,17 +25,28 @@
 #include "keyboard_input.h"
 
 #include <cstring>
+#include <string>
 
-constexpr char const* CONFIG_SIP_USER = "620";
-constexpr char const* CONFIG_SIP_PASSWORD = "secret";
-constexpr char const* CONFIG_SIP_SERVER_IP = "192.168.179.1";
-constexpr char const* CONFIG_SIP_SERVER_PORT = "5060";
-constexpr char const* CONFIG_LOCAL_IP = "192.168.170.30";
+std::string CONFIG_SIP_USER;
+std::string CONFIG_SIP_PASSWORD;
+std::string CONFIG_SIP_SERVER_IP;
+std::string CONFIG_SIP_SERVER_PORT;
+std::string CONFIG_LOCAL_IP;
 
-constexpr char const* CONFIG_CALL_TARGET_USER = "9170";
-constexpr char const* CONFIG_CALLER_DISPLAY_MESSAGE = "CMDLine";
+std::string CONFIG_CALL_TARGET_USER;
+std::string CONFIG_CALLER_DISPLAY_MESSAGE;
 
 static constexpr char const* TAG = "main";
+
+struct MyArgs : public argparse::Args{
+        std::string &SIP_user = kwarg("u,user", "Enter your username");
+        std::string &SIP_password = kwarg("p,password", "Enter your password");
+        std::string &server_ip = kwarg("s,server_ip", "Set server IP address");
+        std::string &server_port = kwarg("port", "Set the port that server is listening on").set_default("5060");
+        std::string &local_ip = kwarg("l,local_ip", "Set your local machine's IP address");
+        std::string &target_user = kwarg("t,target_username", "Enter username of user to call");
+        std::string &display_message = kwarg("m,display_message", "Text to be displayed on screen on target user during ringing");
+    };
 
 using SipClientT = SipClient<AsioUdpClient, MbedtlsMd5>;
 
@@ -95,8 +107,19 @@ void sip_task(void* pvParameters)
     }
 }
 
-int main(int /*unused*/, char** /*unused*/)
+int main(int argc, char** argv)
 {
+    MyArgs args = argparse::parse<MyArgs>(argc, argv);
+
+    std::string CONFIG_SIP_USER = args.SIP_user;
+    std::string CONFIG_SIP_PASSWORD = args.SIP_password;
+    std::string CONFIG_SIP_SERVER_IP = args.server_ip;
+    std::string CONFIG_SIP_SERVER_PORT = args.server_port;
+    std::string CONFIG_LOCAL_IP = args.local_ip;
+
+    std::string CONFIG_CALL_TARGET_USER = args.target_user;
+    std::string CONFIG_CALLER_DISPLAY_MESSAGE = args.display_message;
+    
     // seed for std::rand() used in the sip client
     std::srand(static_cast<unsigned int>(time(nullptr)));
 
