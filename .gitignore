@@ -1,4 +1,5 @@
 build/
+.vscode/
 sdkconfig.old
 sdkconfig
 compile_commands.json
