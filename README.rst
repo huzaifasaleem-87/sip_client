@@ -1,66 +1,26 @@
-ESP32 door bell to sip call
+SIP Client
 ===========================
 
-On startup the application associates with the compiled in wlan access point and
-registers on the SIP server.
-
-The project also contains a http server to perform firmware updates by uploading the firmware bin file.
-
-Once a signal is detected on the selected GPIO, a call is initiated to a target number. On the phone, the custom string is displayed.
-After the configured timeout is elapsed, the call is canceled. If the signal is detected again, before the timer is elapsed, the timer
-is started again.
-
-Tested with:
-
-* AVM Fritzbox 7390
-* AVM Fritzbox 7490 (Firmware 7.28)
-* AVM Fritzbox 7590
-* local FreeSWITCH installation
-
-Programming
------------
-
-The source code is mixed C and C++.
-
-This application is to be used with `Espressif IoT Development Framework`_ (ESP-IDF). It is tested with version v5.0-beta1-720-gda9a78ebfc (rev da9a78ebfc45e4158f87811908337fa1d40912f3)
-
-Please check ESP-IDF docs for getting started instructions.
-
+This repo was forked from the sip_call repo by chrta that was created for initiating a call from a doorbell using the ESP microcontroller. I have forked it and will make changes to it to turn it into a regular SIP Client that will support 2 way communication
+This is an ongoing project
 
 Building
 ++++++++
 
-The project now uses cmake, so after initializing your environment with the relevant variables from esp-idf you can use idf.py to build, flash etc::
-
-  cd <this project's root dir>
-  idf.py menuconfig
-  idf.py build
-  idf.py flash monitor
-
-To build for another ESP32 soc, e.g. the ESP32C3::
-
-  cd <this project's root dir>
-  idf.py set-target esp32c3
-  idf.py menuconfig
-  idf.py build
-  idf.py flash monitor
-
-See `Selecting soc build target`_ for more details.
-
-
-To build this project for the pc (linux, e.g. ubuntu or fedora), a sample (not all features are supported, yet)::
-
+The project now uses cmake. To build this project for the pc (linux, e.g. ubuntu or fedora)
   mkdir <build dir>
   cd <build dir>
-  cmake <this project's root dir>/native
+  cmake <this project's root dir>
   make
 
-The sip server configuration must be done in the defines of the file <this project's root dir>/native/main.cpp.
+The sip server configuration must be done in the defines of the file <this project's root dir>/native/main.cpp. (Will be changed to be taken through cmd line)
 
 The following libraries are required for this (e.g. on fedora)::
 
-  sudo dnf install asio-devel mbedtls-devel
+  sudo apt-get install libasio-dev libmbedtls-dev libsfml-dev
 
+
+(NOTE: The below text is from the original chrta repo and is left alone for now)
 Code formatting
 +++++++++++++++
 
