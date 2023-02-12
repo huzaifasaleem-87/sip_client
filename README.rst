@@ -8,6 +8,7 @@ Building
 ++++++++
 
 The project now uses cmake. To build this project for the pc (linux, e.g. ubuntu or fedora)
+
   mkdir <build dir>
   cd <build dir>
   cmake <this project's root dir>
@@ -21,6 +22,7 @@ The following libraries are required for this (e.g. on fedora)::
 
 
 (NOTE: The below text is from the original chrta repo and is left alone for now)
+
 Code formatting
 +++++++++++++++
 
